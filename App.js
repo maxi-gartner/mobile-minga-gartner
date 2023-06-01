@@ -1,20 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Image, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import tw from 'twrnc'
+import Navbar from './src/components/Navbar';
+import Footer from './src/components/Footer';
+import Register from './src/pages/Register';
+import ButtonTabsNavigator from './src/navigation/ButtonTabsNavigator';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <NavigationContainer>
+        <View style={styles.container}>
+          <Navbar />
+          <ButtonTabsNavigator/>
+          <Footer />
+        </View>
+      </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    height: '100%'
   },
 });
