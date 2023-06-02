@@ -15,8 +15,7 @@ const Details = ({route}) => {
     console.log("manga", manga);
     console.log("chapters", chapters);
     
-    //const id = route.params.id
-    const id = "6467a4184fffe0e2c1805181"
+    const id = route.params.id
     
     useEffect(
         ()=>{
@@ -48,38 +47,43 @@ const Details = ({route}) => {
             },[chapters])
     
             const [Switchs, setSelectSwitch] = useState(true)
-
+console.log(manga);
     return (
+        <View style={tw`w-full h-full flex flex-row justify-center bg-black`}>
+            {manga.title
+            ? (<Image style={styles.ImgBackgraund} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')}/>) 
+            : (<Image style={styles.ImgBackgraundFirst} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')}/>)}
         <ScrollView style={styles.container}>
-        <Image style={styles.ImgBackgraund} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')} className="   "/>
             <View>
                 <Image style={tw`h-60 w-full rounded-xl`} source={{uri: `${manga.cover_photo}`}}/>
             </View>
             <View>
-                <View style={tw`h-10 rounded-full m-5 flex items-center flex-row justify-evenly`}>
-                    <TouchableOpacity onPress={()=> setSelectSwitch(true)}
-                            style={tw`w-30 h-8 bg-[#000000c7] rounded-lg`}>
-                        <View style={tw`w-full h-full flex flex-row justify-evenly items-center`}>
-                            <Text style={{display: Switchs ? 'flex' : 'none'}}>✅</Text>
-                            <Text style={tw`text-lg font-semibold text-white`}>Manga</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> setSelectSwitch(false)}
-                            style={tw`w-30 h-8 bg-[#000000c7] rounded-lg`}>
-                        <View style={tw`w-full h-full flex flex-row justify-evenly items-center`}>
-                            <Text style={{display: Switchs ? 'none' : 'flex'}}>✅</Text>
-                            <Text style={tw`text-lg font-semibold text-white`}>Chapers</Text>
-                        </View>
-                    </TouchableOpacity>
+            {manga.title ? 
+            (<View style={tw`h-10 rounded-full m-5 flex items-center flex-row justify-evenly`}>
+            <TouchableOpacity onPress={()=> setSelectSwitch(true)}
+                        style={tw`w-30 h-8 bg-[#000000c7] rounded-lg`}>
+                    <View style={tw`w-full h-full flex flex-row justify-evenly items-center`}>
+                        <Text style={{display: Switchs ? 'flex' : 'none'}}>✅</Text>
+                        <Text style={tw`text-lg font-semibold text-white`}>Manga</Text>
+                    </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=> setSelectSwitch(false)}
+                    style={tw`w-30 h-8 bg-[#000000c7] rounded-lg`}>
+                <View style={tw`w-full h-full flex flex-row justify-evenly items-center`}>
+                    <Text style={{display: Switchs ? 'none' : 'flex'}}>✅</Text>
+                    <Text style={tw`text-lg font-semibold text-white`}>Chapers</Text>
                 </View>
+            </TouchableOpacity>
+            </View>): ("")}
             </View>
             <View style={tw`pb-10`}>
                 {Switchs ? (<>
                     <View style={tw`text-3xl`}>
                         <Text style={tw`text-3xl w-full text-center`}>{manga?.title}</Text>
                         <View style={tw`w-full flex flex-row justify-between px-4 mt-5`}>
-                            <Text style={tw``}>Category: {manga?.category_id?.name}</Text>
-                            <Text style={tw``}>Company: {manga?.company_id?.name}</Text>
+                            {manga.title 
+                            ? (<><Text style={tw``}>Category: {manga?.category_id?.name}</Text>
+                                <Text style={tw``}>Company: {manga?.company_id?.name}</Text></>): ("")}
                         </View>
                         <Text style={tw`p-5`}>{manga?.description}</Text>
                     </View>
@@ -113,6 +117,7 @@ const Details = ({route}) => {
                     </>)}
             </View>
         </ScrollView>
+        </View>
     );
     }
     
@@ -120,11 +125,18 @@ const Details = ({route}) => {
 
     const styles = StyleSheet.create({
         container: {
-            width: '100%'
+            width: '100%',
+            maxWidth: 1024
         },
         ImgBackgraund: {
             width: '100%',
             height: '100%',
+            position: "absolute",
+            minHeight: ScreenHeight
+        },
+        ImgBackgraundFirst: {
+            width: '100%',
+            height: ScreenHeight,
             position: "absolute"
         }
     });

@@ -42,6 +42,7 @@ const Register = () => {
     
 
     return (
+        <View style={tw`w-full h-full flex flex-row justify-center bg-black`}>
         <View style={styles.container}>
             <Image style={styles.ImgBackgraund} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')}/>
             <View style={tw`w-80`}>
@@ -57,7 +58,8 @@ const Register = () => {
                 <TextInput 
                         style={styles.input} 
                         placeholder={'Insert Your Password'}
-                        onChangeText={onChangePassword}/>
+                        onChangeText={onChangePassword}
+                        secureTextEntry={true}/>
                 <View style={tw`flex flex-row justify-between`} className="">
                     <TouchableOpacity 
                                 style={tw.style("bg-[#224796]", "rounded-xl", "py-3", "w-[45%]", "flex", "flex-row", "justify-center")} 
@@ -73,6 +75,7 @@ const Register = () => {
                 </View>
             </View>
         </View>
+        </View>
     );
 }
 
@@ -84,6 +87,7 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        maxWidth: 1000
     },
     input: {
         width: '100%',

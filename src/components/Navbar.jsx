@@ -2,13 +2,13 @@ import { ColorSchemeStore } from 'nativewind/dist/style-sheet/color-scheme';
 import {Button, StyleSheet, TouchableOpacity, ScrollView, Image, Text, View } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ImageBackground } from 'react-native-web';
-import  { useState, useEffect } from "react"
-import { useNavigation } from '@react-navigation/native';
+import  { useState, useEffect, useCallback } from "react"
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import tw from 'twrnc'
 
-/* 
+
 AsyncStorage.getItem('email').then(data => {setEmail(data)}).catch(err => console.log(err))
-AsyncStorage.getItem('photo').then(data => {setPhoto(data)}).catch(err => console.log(err)) */
+AsyncStorage.getItem('photo').then(data => {setPhoto(data)}).catch(err => console.log(err))
 
 
 const Navbar = () => {
@@ -17,8 +17,25 @@ const Navbar = () => {
   const [photo, setPhoto] = useState("")
   const navigation = useNavigation()
 
-  useEffect(()=>{AsyncStorage.getItem('email').then(data => {setEmail(data)}).catch(err => console.log(err))},[])
-  useEffect(()=>{AsyncStorage.getItem('photo').then(data => {setPhoto(data)}).catch(err => console.log(err))},[])
+  useEffect(()=>{AsyncStorage.getItem('email').then(data => {setEmail(data)}).catch(err => console.log(err))},[navView])
+  useEffect(()=>{AsyncStorage.getItem('photo').then(data => {setPhoto(data)}).catch(err => console.log(err))},[navView])
+
+  const [token, setToken] = useState("")
+    useFocusEffect(
+        useCallback(()=> {
+            AsyncStorage.getItem('token').then(data => setToken(data)).catch(err => console.log(err)).catch(err => console.log(err));
+        }, [navView])
+    )
+
+    const clearAll = async () => {
+      try {
+        await AsyncStorage.clear()
+      } catch(e) {
+        // clear error
+      }
+    
+      console.log('Done.')
+    }
 
   return (
     <>
@@ -52,16 +69,19 @@ const Navbar = () => {
                           onPress={()=> {navigation.navigate('Index'), setNavView(false)}}>
                   <Text style={styles.appButtonText}>Home</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
+              {token ? 
+              (<TouchableOpacity 
                           style={styles.buttons}
                           onPress={()=> {navigation.navigate('Register'), setNavView(false)}}>
                   <Text style={styles.appButtonText}>Register</Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
+              </TouchableOpacity>) : ("")}
+              {token ? 
+              (<TouchableOpacity 
                           style={styles.buttons}
                           onPress={()=> {navigation.navigate('Mangas'), setNavView(false)}}>
                   <Text style={styles.appButtonText}>Mangas</Text>
-              </TouchableOpacity>
+              </TouchableOpacity>) : ("")}
+              
               <TouchableOpacity 
                           style={styles.buttons}
                           /* onPress={()=> {navigation.navigate('Favorites'), setNavView(false)}} */>
@@ -69,7 +89,7 @@ const Navbar = () => {
               </TouchableOpacity>
               <TouchableOpacity 
                           style={styles.buttons}
-                          /* onPress={()=> {navigation.navigate('Logout'), setNavView(false)}} */>
+                          onPress={()=> {clearAll(), navigation.navigate('Index'), setNavView(false)}}>
                   <Text style={styles.appButtonText}>Logout</Text>
               </TouchableOpacity>
             </View>

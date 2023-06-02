@@ -81,20 +81,25 @@ useEffect(
         }
 
 return (
+    <View style={tw`w-full h-full flex flex-row justify-center bg-black`}>
+        {mangas.title
+        ? (<Image style={styles.ImgBackgraund} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')}/>) 
+        : (<Image style={styles.ImgBackgraundFirst} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')}/>)}
     <ScrollView style={styles.container}>
-        <Image style={styles.ImgBackgraund} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')} className=""/>
         <View style={tw``} >
         {counter === 0 ? (<Image style={tw`h-60 w-full`} source={require('../../assets/img1.jpeg')}/>) : counter === 1 ? (<Image style={tw`h-60 w-full`} source={require('../../assets/img2.jpeg')}/>) : (<Image style={tw`h-60 w-full`} source={require('../../assets/img3.jpeg')}/>) }
         </View>
         
         <View style={tw`w-full flex flex-row justify-evenly`}>
-            <TouchableOpacity style={tw`rounded-2xl w-17 mx-1 h-8 mt-5 mb-3 flex justify-center items-center font-semibold cursor-pointer bg-white`}
-                        onPress={()=> {
-                            setCategoriesChecked([])
-                            setReload(!reload)
-                        }}>
-                <Text style={tw`text-black font-bold`}>All</Text>
-            </TouchableOpacity>
+        {mangas.length > 0 
+            ? (<TouchableOpacity style={tw`rounded-2xl w-17 mx-1 h-8 mt-5 mb-3 flex justify-center items-center font-semibold cursor-pointer bg-white`}
+                            onPress={()=> {
+                                setCategoriesChecked([])
+                                setReload(!reload)
+                            }}>
+                    <Text style={tw`text-black font-bold`}>All</Text>
+                </TouchableOpacity>) 
+            : ("")}
             {categories?.map(element => {
                 return <TouchableOpacity 
                                     key={element.name}
@@ -121,8 +126,9 @@ return (
                 </View>
             </TouchableOpacity>
             })}
-            <View style={tw`w-full h-14 flex flex-row justify-center`}>
-                <View style={tw`w-96 h-14 flex flex-row justify-between`}>
+            {mangas.length > 0 
+            ? (<View style={tw`w-full h-14 flex flex-row justify-center`}>
+            <View style={tw`w-96 h-14 flex flex-row justify-between`}>
                     <TouchableOpacity style={tw`h-10 flex flex-row items-center`}  
                                         onPress={()=> handlePage(false)} 
                                         disabled={disablePrev}>
@@ -137,9 +143,11 @@ return (
                         <Image style={tw`h-10 w-10 rounded-lg`} source={require('../../assets/button-right.svg')} />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </View>) 
+            : ("")}
         </View>}
     </ScrollView>
+    </View>
 );
 }
 
@@ -147,11 +155,18 @@ let ScreenHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%'
+        width: '100%',
+        maxWidth: 1024
     },
     ImgBackgraund: {
         width: '100%',
         height: '100%',
+        position: "absolute",
+        minHeight: ScreenHeight
+    },
+    ImgBackgraundFirst: {
+        width: '100%',
+        height: ScreenHeight,
         position: "absolute"
     }
 });
