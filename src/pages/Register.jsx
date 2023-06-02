@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {Button, StyleSheet,Image , TouchableOpacity, TextInput, Text, View } from 'react-native';
+import {Button, Dimensions, StyleSheet,Image , TouchableOpacity, TextInput, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import tw from 'twrnc'
@@ -43,7 +43,7 @@ const Register = () => {
 
     return (
         <View style={styles.container}>
-            <Image style={tw`h-full w-full absolute`} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')}/>
+            <Image style={styles.ImgBackgraund} source={require('../../assets/photo-1557683304-673a23048d34.jpeg')}/>
             <View style={tw`w-80`}>
                 <Text style={tw`w-full h-10 text-2xl text-center font-extrabold text-white`} className="">Register</Text>
                 <TextInput 
@@ -60,13 +60,13 @@ const Register = () => {
                         onChangeText={onChangePassword}/>
                 <View style={tw`flex flex-row justify-between`} className="">
                     <TouchableOpacity 
-                                style={tw.style("bg-[#224796]", "rounded-xl", "py-3", "w-[45%]", "text-center")} 
+                                style={tw.style("bg-[#224796]", "rounded-xl", "py-3", "w-[45%]", "flex", "flex-row", "justify-center")} 
                                 className=""
                                 onPress={handleNavigation}>
                         <Text style={styles.appButtonText}>Go Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
-                                style={tw.style("bg-[#229622]", "rounded-xl", "py-3", "w-[45%]", "text-center")}
+                                style={tw.style("bg-[#229622]", "rounded-xl", "py-3", "w-[45%]", "flex", "flex-row", "justify-center")}
                                 onPress={handleForm}>
                         <Text style={styles.appButtonText}>Register</Text>
                     </TouchableOpacity>
@@ -75,6 +75,8 @@ const Register = () => {
         </View>
     );
 }
+
+let ScreenHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
     container: {
@@ -85,10 +87,10 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '100%',
-        height: '3rem',
+        height: 42,
         backgroundColor: 'white',
-        borderRadius: '5px',
-        marginBottom: '10px',
+        borderRadius: 5,
+        marginBottom: 10,
         textAlign: 'center',
     },
     appButtonText: {
@@ -96,6 +98,11 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
         textTransform: "uppercase"
+    },
+    ImgBackgraund: {
+        width: '100%',
+        height: ScreenHeight,
+        position: "absolute"
     }
 });
 
